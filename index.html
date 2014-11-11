@@ -1,5 +1,28 @@
 <html>
   <head>
+    <style>
+      body {
+        background-color: aliceblue;
+      }
+      
+      .asset-list-item {
+        background: white;
+        border: thin solid darkgrey;
+        border-radius: 10px;
+        width: 200px;
+        overflow: hidden;
+        vertical-align: top;
+        display: inline-block;
+        padding: 10px;
+        margin: 10px;
+      }
+      
+      .asset-list-item > img {
+        width: 100%;
+/*        object-fit: contain;*/
+        height: auto;
+      }
+    </style>
   </head>
 
   <body>
@@ -110,7 +133,7 @@
         initialize: function() {
           this.model.assets().fetch({
             data: {
-              per_page: 100
+              per_page: 30
             }
           });
           this.listenTo(this.model.assets(), 'sync', this.render.bind(this));
@@ -122,13 +145,15 @@
           
           var $content = $('<div class="assets-list">')
           this.model.assets().each(function(asset) {
-            $content.append(asset.get('caption'));
+            var $asset = $('<div class="asset-list-item">');
+            var img = '<img src=' + asset.get('thumbnail') + '>'
+            $asset.append(img)
+            $asset.append(asset.get('caption'));
+            $content.append($asset);
           });
           this.$el.html($content);
           return this;
         }
-        
-        
       });
     </script>
     
