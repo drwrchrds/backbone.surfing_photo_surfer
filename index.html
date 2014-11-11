@@ -5,22 +5,30 @@
         background-color: aliceblue;
       }
       
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      
+      #main {
+        margin: 0 auto;
+      }
+      
       .asset-list-item {
         background: white;
-        border: thin solid darkgrey;
         border-radius: 10px;
         width: 200px;
-        overflow: hidden;
-        vertical-align: top;
         display: inline-block;
         padding: 10px;
-        margin: 10px;
+        margin-bottom: 10px;
       }
       
       .asset-list-item > img {
         width: 100%;
 /*        object-fit: contain;*/
         height: auto;
+        min-height: 180px;
       }
     </style>
   </head>
@@ -31,7 +39,7 @@
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
-    
+    <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
     <script>
       window.Surfer = {
         Models: {},
@@ -116,16 +124,12 @@
           album.fetch({
             success: function() {
               var indexView = new Surfer.Views.ShowAlbum({ model: album });
-              router._swapView(indexView);
+              router.$rootEl.html(indexView.$el);
+              
+
             }
           });
           
-        },
-        
-        _swapView: function(newView) {
-          this.currentView && this.currentView.remove();
-          this.currentView = newView;
-          this.$rootEl.html(newView.render().$el);
         }
       });
       
@@ -136,9 +140,11 @@
               per_page: 30
             }
           });
-          this.listenTo(this.model.assets(), 'sync', this.render.bind(this));
+          this.listenTo(this.model.assets(), 'sync', 
+                this.renderAndMasonry.bind(this));
           // this.renderAlbumInfo();
         },
+
         
         render: function() {
           // this.renderAlbumInfo();
@@ -151,8 +157,19 @@
             $asset.append(asset.get('caption'));
             $content.append($asset);
           });
+          
           this.$el.html($content);
           return this;
+        },
+        
+        renderAndMasonry: function() {
+          this.render();
+          router.$rootEl.masonry({
+            columnWidth: 200,
+            itemSelector: '.asset-list-item',
+            gutter: 10,
+            isFitWidth: true
+          });
         }
       });
     </script>
