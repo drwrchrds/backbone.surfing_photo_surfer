@@ -17,7 +17,7 @@
         Routers: {},
         initialize: function() {
           var $rootEl = $(main);
-          new Surfer.Routers.Router($rootEl);
+          router = new Surfer.Routers.Router($rootEl);
           Backbone.history.start();
         }
       }
@@ -69,18 +69,25 @@
         },
         
         url: function() {
-          return this.album().url() + '/assets'
+          return this.album.url() + '/assets'
+        },
+        
+        parse: function(jsonResp) {
+          return jsonResp.data;
         }
       });
       
       Surfer.Routers.Router = Backbone.Router.extend({
+        initialize: function($rootEl) {
+          this.$rootEl = $rootEl;
+        },
+        
         routes: {
-          '/': 'showAlbum',
+          '': 'showAlbum',
           '/assets/:id': 'showLightbox'
         },
         
         showAlbum: function() {
-          alert('heya')
           var router = this;
           album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
           album.fetch({
@@ -101,27 +108,34 @@
       
       Surfer.Views.ShowAlbum = Backbone.View.extend({
         initialize: function() {
-          this.model.assets().fetch();
+          this.model.assets().fetch({
+            data: {
+              per_page: 100
+            }
+          });
           this.listenTo(this.model.assets(), 'sync', this.render.bind(this));
+          // this.renderAlbumInfo();
         },
         
         render: function() {
+          // this.renderAlbumInfo();
+          
           var $content = $('<div class="assets-list">')
           this.model.assets().each(function(asset) {
-            $content.append(asset)
+            $content.append(asset.get('caption'));
           });
-          this.$el.html(renderedContent);
+          this.$el.html($content);
           return this;
-        },
+        }
         
         
+      });
+    </script>
+    
+    <script>
+      $(function() {
+        Surfer.initialize();
       })
-      
-      
-      
-
-      
-      
     </script>
   </body>
   
