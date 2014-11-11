@@ -3,26 +3,125 @@
   </head>
 
   <body>
-    Ahoy hoy!
+    <div id='main'></div>
     
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+    
     <script>
       window.Surfer = {
         Models: {},
         Collections: {},
         Views: {},
-        Routers: {}
+        Routers: {},
+        initialize: function() {
+          var $rootEl = $(main);
+          new Surfer.Routers.Router($rootEl);
+          Backbone.history.start();
+        }
       }
       
       Surfer.Models.Album = Backbone.Model.extend({
+        assets: function() {
+          if(!this._assets) {
+            this._assets = new Surfer.Collections.Assets([], this);
+          }
+          return this._assets;
+        },
+        
         idAttribute: 'shortcut',
-        urlRoot: 'http://api.getchute.com/v2/albums'
+        
+        urlRoot: 'http://api.getchute.com/v2/albums',
+        
+        parse: function(jsonResp) {
+          var data = jsonResp.data;
+          if(data.user) {
+            this.user().set(data.user);
+            delete data.user;
+          }
+          return data;
+        },
+        
+        user: function() {
+          if(!this._user) {
+            this._user = new Surfer.Models.User({}, this);
+          } 
+          return this._user;
+        }
       });
       
-      album = new Surfer.Models.Album({shortcut: 'aus6kwrg'})
-      album.fetch();
+      Surfer.Models.Asset = Backbone.Model.extend({
+        parse: function(jsonResp) {
+          return jsonResp.data;
+        }
+      });
+      
+      Surfer.Models.User = Backbone.Model.extend({
+        initialize: function(data, album) {
+          this.album = album;
+        }
+      });
+      
+      Surfer.Collections.Assets = Backbone.Collection.extend({
+        initialize: function(models, album) {
+          this.album = album;
+        },
+        
+        url: function() {
+          return this.album().url() + '/assets'
+        }
+      });
+      
+      Surfer.Routers.Router = Backbone.Router.extend({
+        routes: {
+          '/': 'showAlbum',
+          '/assets/:id': 'showLightbox'
+        },
+        
+        showAlbum: function() {
+          alert('heya')
+          var router = this;
+          album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
+          album.fetch({
+            success: function() {
+              var indexView = new Surfer.Views.ShowAlbum({ model: album });
+              router._swapView(indexView);
+            }
+          });
+          
+        },
+        
+        _swapView: function(newView) {
+          this.currentView && this.currentView.remove();
+          this.currentView = newView;
+          this.$rootEl.html(newView.render().$el);
+        }
+      });
+      
+      Surfer.Views.ShowAlbum = Backbone.View.extend({
+        initialize: function() {
+          this.model.assets().fetch();
+          this.listenTo(this.model.assets(), 'sync', this.render.bind(this));
+        },
+        
+        render: function() {
+          var $content = $('<div class="assets-list">')
+          this.model.assets().each(function(asset) {
+            $content.append(asset)
+          });
+          this.$el.html(renderedContent);
+          return this;
+        },
+        
+        
+      })
+      
+      
+      
+
+      
+      
     </script>
   </body>
   
