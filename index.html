@@ -1,43 +1,6 @@
 <html>
   <head>
-    <style>
-      body {
-        background-color: aliceblue;
-        font-family: Helvetica, sans-serif;
-      }
-      
-      * {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-      }
-      
-      #main {
-        margin: 0 auto;
-      }
-      
-      .asset-list-item {
-        background: white;
-        border-radius: 10px;
-        width: 200px;
-        display: inline-block;
-        margin-bottom: 10px;
-        overflow: hidden;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
-      }
-      
-      .asset-list-item > img {
-        width: 100%;
-        height: auto;
-        min-height: 180px;
-      }
-      
-      .asset-list-item .caption {
-        padding: 10px;
-        font-weight: 100;
-        color: #111;
-      }
-    </style>
+    <link rel='stylesheet' href='stylesheets/application.css'>
   </head>
 
   <body>
@@ -48,160 +11,44 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
     <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
     <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
-    <script>
-      window.Surfer = {
-        Models: {},
-        Collections: {},
-        Views: {},
-        Routers: {},
-        initialize: function() {
-          var $rootEl = $(main);
-          router = new Surfer.Routers.Router($rootEl);
-          Backbone.history.start();
-        }
-      }
-      
-      Surfer.Models.Album = Backbone.Model.extend({
-        assets: function() {
-          if(!this._assets) {
-            this._assets = new Surfer.Collections.Assets([], this);
-          }
-          return this._assets;
-        },
-        
-        idAttribute: 'shortcut',
-        
-        urlRoot: 'http://api.getchute.com/v2/albums',
-        
-        parse: function(jsonResp) {
-          var data = jsonResp.data;
-          if(data.user) {
-            this.user().set(data.user);
-            delete data.user;
-          }
-          return data;
-        },
-        
-        user: function() {
-          if(!this._user) {
-            this._user = new Surfer.Models.User({}, this);
-          } 
-          return this._user;
-        }
-      });
-      
-      Surfer.Models.Asset = Backbone.Model.extend({
-        parse: function(jsonResp) {
-          return jsonResp.data;
-        }
-      });
-      
-      Surfer.Models.User = Backbone.Model.extend({
-        initialize: function(data, album) {
-          this.album = album;
-        }
-      });
-      
-      Surfer.Collections.Assets = Backbone.Collection.extend({
-        initialize: function(models, album) {
-          this.album = album;
-        },
-        
-        url: function() {
-          return this.album.url() + '/assets'
-        },
-        
-        parse: function(jsonResp) {
-          return jsonResp.data;
-        }
-      });
-      
-      Surfer.Routers.Router = Backbone.Router.extend({
-        initialize: function($rootEl) {
-          this.$rootEl = $rootEl;
-        },
-        
-        routes: {
-          '': 'showAlbum',
-          '/assets/:id': 'showLightbox'
-        },
-        
-        showAlbum: function() {
-          var router = this;
-          album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
-          album.fetch({
-            success: function() {
-              var indexView = new Surfer.Views.ShowAlbum({ model: album });
-              router.$rootEl.html(indexView.$el);
-              
+    
 
-            }
-          });
-          
-        }
-      });
-      
-      Surfer.Views.ShowAlbum = Backbone.View.extend({
-        initialize: function() {
-          this.model.assets().fetch({
-            data: {
-              per_page: 30
-            }
-          });
-          this.listenTo(this.model.assets(), 'sync', 
-                this.renderAndMasonry.bind(this));
-          // this.renderAlbumInfo();
-        },
 
-        
-        render: function() {
-          // this.renderAlbumInfo();
-          
-          var $content = $('<div class="assets-list">')
-          this.model.assets().each(function(asset) {
-            var $asset = $('<div class="asset-list-item">');
-            var img = '<img src=' + asset.get('thumbnail') + '>'
-            $asset.append(img)
-            $asset.append('<div class="caption">' + asset.get('caption') + '</div>');
-            $content.append($asset);
-          });
-          
-          this.$el.html($content);
-          return this;
-        },
-        
-        renderAndMasonry: function() {
-          this.render();
-          this.$el.masonry({
-            columnWidth: 200,
-            itemSelector: '.asset-list-item',
-            gutter: 10,
-            isFitWidth: true
-          });
-          
-          var $assets = this.$('.asset-list-item');
-          $assets.hide();
-          
-          var msnry = this.$el.data('masonry');
-          
-          $assets.imagesLoaded().progress(function (imgLoad, image) {
-            var $asset = $(image.img).parents('.asset-list-item');
-            // un-hide item
-            $asset.show();
-            
-            // masonry does its thing
-            msnry.appended($asset);
-          });
-
-        }
-      });
+    <!-- template scripts must be included before script tags that require them -->
+    <script type='text/html' id='template-show-album'>
+      <section class="assets-list">
+        <% assets.each(function(asset) { %>
+          <div class="asset-list-item">
+            <img 
+              src="<%= asset.get("thumbnail") %>"
+              onerror="imgError(this);">
+            <% if(asset.get("caption")) { %>
+              <div class="caption">
+                <%= asset.get("caption") %>
+              </div>
+            <% } %>
+            <div class="likes">
+              <%= asset.get("hearts") %>
+            </div>
+          </div>
+        <% }) %>
+      </section>
     </script>
     
+    <script src='javascripts/application.js'></script>
+    <script src='javascripts/models/asset.js'></script>
+    <script src='javascripts/models/album.js'></script>
+    <script src='javascripts/models/user.js'></script>
+    <script src='javascripts/collections/assets.js'></script>
+    <script src='javascripts/views/show_album.js'></script>
+    <script src='javascripts/router.js'></script>
     <script>
       $(function() {
         Surfer.initialize();
-      })
+      });
     </script>
+    
+
   </body>
   
 </html>
