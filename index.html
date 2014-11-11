@@ -3,6 +3,7 @@
     <style>
       body {
         background-color: aliceblue;
+        font-family: Helvetica, sans-serif;
       }
       
       * {
@@ -20,15 +21,21 @@
         border-radius: 10px;
         width: 200px;
         display: inline-block;
-        padding: 10px;
         margin-bottom: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
       }
       
       .asset-list-item > img {
         width: 100%;
-/*        object-fit: contain;*/
         height: auto;
         min-height: 180px;
+      }
+      
+      .asset-list-item .caption {
+        padding: 10px;
+        font-weight: 100;
+        color: #111;
       }
     </style>
   </head>
@@ -40,6 +47,7 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
     <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
+    <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
     <script>
       window.Surfer = {
         Models: {},
@@ -154,7 +162,7 @@
             var $asset = $('<div class="asset-list-item">');
             var img = '<img src=' + asset.get('thumbnail') + '>'
             $asset.append(img)
-            $asset.append(asset.get('caption'));
+            $asset.append('<div class="caption">' + asset.get('caption') + '</div>');
             $content.append($asset);
           });
           
@@ -164,12 +172,27 @@
         
         renderAndMasonry: function() {
           this.render();
-          router.$rootEl.masonry({
+          this.$el.masonry({
             columnWidth: 200,
             itemSelector: '.asset-list-item',
             gutter: 10,
             isFitWidth: true
           });
+          
+          var $assets = this.$('.asset-list-item');
+          $assets.hide();
+          
+          var msnry = this.$el.data('masonry');
+          
+          $assets.imagesLoaded().progress(function (imgLoad, image) {
+            var $asset = $(image.img).parents('.asset-list-item');
+            // un-hide item
+            $asset.show();
+            
+            // masonry does its thing
+            msnry.appended($asset);
+          });
+
         }
       });
     </script>
