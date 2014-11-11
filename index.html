@@ -1,0 +1,26 @@
+<html>
+  <head>
+  </head>
+
+  <body>
+    Ahoy hoy!
+    
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+    <script>
+      window.Surfer = {
+        Models: {},
+        Collections: {},
+        Views: {},
+        Routers: {}
+      }
+      
+      Surfer.Models.Album = Backbone.Model.extend({
+        url: '/albums'
+      });
+      
+      Surfer.Models.Asset = Backbone.Model.extend({
+      });
+    </script>
+  </body>
+  
+</html>
