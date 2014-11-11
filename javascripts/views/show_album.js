@@ -1,14 +1,21 @@
 Surfer.Views.ShowAlbum = Backbone.View.extend({
   className: 'show-album', 
   
-  initialize: function() {
+  initialize: function () {
+    var view = this;
+    
+    this.model.fetch()
     this.model.assets().fetch({
       data: {
         per_page: 30
+      },
+      success: function () {
+        view.renderAndMasonry();
       }
     });
-    this.listenTo(this.model.assets(), 'sync',
-          this.renderAndMasonry.bind(this));
+    
+    // this.listenTo(this.model.assets(), 'sync', this.renderAndMasonry.bind(this));
+    // this.listenTo(this.model, 'sync', this.renderAndMasonry.bind(this));
   },
 
   

@@ -9,7 +9,7 @@
     <!-- template scripts must be included before script tags that require them -->
     <script type='text/html' id='template-show-album'>
       <section class='album-details'>
-        <h1><%= album.get('name') %></h1>
+        <h1>Album: <%= album.get('name') %></h1>
       </section>
       <section class="assets-list">
         <% assets.each(function(asset) { %>
@@ -20,8 +20,12 @@
             <% if(asset.get("caption")) { %>
               <div class="caption">
                 <%= asset.get("caption") %>
+ 
               </div>
             <% } %>
+            <span class='flavor'>
+              via: <%= asset.get("service") %>
+            </span>
             <div class="likes">
               <%= asset.get("hearts") %>
             </div>

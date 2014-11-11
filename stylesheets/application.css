@@ -49,6 +49,7 @@ body {
   margin-bottom: 10px;
   overflow: hidden;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
+
 }
 
 .asset-list-item > img {
@@ -56,12 +57,24 @@ body {
   height: auto;
   min-height: 180px;
   object-fit: contain;
+  
+  cursor: pointer;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
 }
 
 .asset-list-item .caption, .asset-list-item .likes {
   padding: 10px;
   font-weight: 100;
   color: #111;
+}
+
+.asset-list-item .flavor {
+  color: #cecece;
+  font-size: .8em;
+  font-weight: 100;
+  padding: 3px 10px;
+  display: block;
 }
 
 .asset-list-item .likes {
@@ -85,6 +98,6 @@ body {
   opacity: 0.6;
 }
 
-.asset-list-item .likes:nth-child(3) {
+.asset-list-item .likes {
   border-top: thin solid #cecece;
 }
