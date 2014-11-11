@@ -1,5 +1,5 @@
 body {
-  background-color: aliceblue;
+  background-color: #e9e9e9;
   font-family: Helvetica, sans-serif;
 }
 
@@ -7,6 +7,7 @@ body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  margin: 0;
 }
 
 #main {
@@ -14,8 +15,30 @@ body {
   margin: 0 auto;
 }
 
-.show-album {
+.assets-list {
   margin: 0 auto;
+  padding-top: 60px;
+}
+
+.album-details {
+  height: 50px;
+  text-align: center;
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  
+  background: white;
+}
+
+.album-details h1 {
+  font-size: 2em;
+  color: #888;
+  font-weight: 100;
+  line-height: 50px;
+  margin: 0;
 }
 
 .asset-list-item {
@@ -51,7 +74,8 @@ body {
 .asset-list-item .likes::after {
   content: '';
   position: absolute;
-  left:0;top:0;
+  left: 0;
+  top: 0;
   height: 50px;
   width: 50px;
   background-image: url(../images/Heart.ico);

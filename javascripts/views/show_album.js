@@ -26,19 +26,20 @@ Surfer.Views.ShowAlbum = Backbone.View.extend({
     this.render();
 
     var $assets = this.$('.asset-list-item');
+    var $assetsList = this.$('.assets-list');
     $assets.hide();
-
-    this.$el.masonry({
+    $assetsList.masonry({
       columnWidth: 200,
       itemSelector: '.asset-list-item',
       gutter: 10,
       isFitWidth: true
     });
+    
     var view = this;
     $assets.imagesLoaded().progress(function (imgLoad, image) {
       var $asset = $(image.img).parents('.asset-list-item');
       $asset.show();
-      view.$el.masonry('appended', $asset).fadeIn();
+      $assetsList.masonry('appended', $asset).fadeIn();
     });
   },
   

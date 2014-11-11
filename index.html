@@ -6,16 +6,11 @@
   <body>
     <div id='main'></div>
     
-    <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
-    <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
-    <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
-    
-
-
     <!-- template scripts must be included before script tags that require them -->
     <script type='text/html' id='template-show-album'>
+      <section class='album-details'>
+        <h1><%= album.get('name') %></h1>
+      </section>
       <section class="assets-list">
         <% assets.each(function(asset) { %>
           <div class="asset-list-item">
@@ -35,6 +30,12 @@
       </section>
     </script>
     
+    <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+    <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
+    <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
+    
     <script src='javascripts/application.js'></script>
     <script src='javascripts/models/asset.js'></script>
     <script src='javascripts/models/album.js'></script>
@@ -42,13 +43,12 @@
     <script src='javascripts/collections/assets.js'></script>
     <script src='javascripts/views/show_album.js'></script>
     <script src='javascripts/router.js'></script>
+    
     <script>
       $(function() {
         Surfer.initialize();
       });
     </script>
     
-
   </body>
-  
 </html>
