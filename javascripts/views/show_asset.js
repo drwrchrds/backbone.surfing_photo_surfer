@@ -2,7 +2,6 @@ Surfer.Views.ShowAsset = Backbone.View.extend({
   template: _.template($('#template-show-asset').html()),
 
   initialize: function () {
-
     this.listenTo(this.collection, 'modal', this.showModal);
   },
 
@@ -18,6 +17,6 @@ Surfer.Views.ShowAsset = Backbone.View.extend({
   showModal: function (asset) {
     this.render(asset);
 
-    $(modal).modal();    
+    $(modal).modal();
   }
 });

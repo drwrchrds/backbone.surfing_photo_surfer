@@ -44,11 +44,11 @@
     </script>
 
     <script type='text/html' id='template-show-asset'>
-      <main>
+      <main style="width: <%= asset.get('dimensions')['width'] %>; max-width: 700px;">
         <a href="#" class="close">x</a>
         <figure>
           <img
-            src='<%= asset.get("url") %>'
+            src='<%= asset.get("url") %>/w/700'
             onerror="imgError(this);">
         </figure>
         <caption>

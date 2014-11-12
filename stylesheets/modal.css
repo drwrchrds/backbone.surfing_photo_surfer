@@ -4,7 +4,7 @@
 
 .overlay {
   z-index: 2;
-  position:absolute;
+  position:fixed;
   top:0;left:0;right:0;bottom:0;
   background-color: rgba(0, 0, 0, 0.5);
   overflow: scroll;
@@ -15,12 +15,9 @@
 }
 
 .modal {
-  border-radius: 10px;
-  background-color: lightgrey;
   position: absolute;
   left:50%;
   top:-30%;
-  width: 50%;
   opacity: 0;
   z-index: 3;
   transform: translateX(-50%);
@@ -30,7 +27,7 @@
 
 .modal.modal-show {
   opacity: 1;
-  top: 10%;
+  top: 6%;
   transition: top .3s ease,
     opacity .3s ease;
 }

@@ -14,6 +14,7 @@ $.Modal.prototype.showOverlay = function() {
   var $body = $('body');
   $body.append(this.$overlay);
   $body.addClass('modal-open');
+  this.$el.show();
   this.$overlay.append(this.$el);
   this.$overlay.one('click', this.hideOverlay.bind(this));
   setTimeout(this.showModal.bind(this), 0);
@@ -25,6 +26,7 @@ $.Modal.prototype.hideOverlay = function() {
   this.$el.removeClass('modal-show');
   
   this.$el.one('transitionend', function() {
+    that.$el.hide();
     $body.append(that.$el);
     that.$overlay.remove();    
     $body.removeClass('modal-open');
