@@ -8,8 +8,7 @@
     <div id='main'></div>
     
     <!-- template scripts must be included before script tags that require them -->
-    <script type='text/html' id='template-show-album'>
-      <section class="assets-list">
+    <script type='text/html' id='template-assets-list'>
         <% assets.each(function(asset) { %>
           <div class="asset-list-item">
             <img 
@@ -28,7 +27,6 @@
             </div>
           </div>
         <% }) %>
-      </section>
     </script>
     
     <script type='text/html' id='template-album-info'>
@@ -53,7 +51,7 @@
     <script src='javascripts/models/album.js'></script>
     <script src='javascripts/models/user.js'></script>
     <script src='javascripts/collections/assets.js'></script>
-    <script src='javascripts/views/show_album.js'></script>
+    <script src='javascripts/views/assets_list.js'></script>
     <script src='javascripts/views/album_info.js'></script>
     <script src='javascripts/router.js'></script>
     

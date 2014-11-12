@@ -1,5 +1,7 @@
-Surfer.Views.ShowAlbum = Backbone.View.extend({
-  className: 'show-album', 
+Surfer.Views.AssetsList = Backbone.View.extend({
+  className: 'assets-list', 
+  
+  tagName: 'section',
   
   initialize: function () {
     var view = this;
@@ -28,9 +30,8 @@ Surfer.Views.ShowAlbum = Backbone.View.extend({
     this.render();
 
     var $assets = this.$('.asset-list-item');
-    var $assetsList = this.$('.assets-list');
     $assets.hide();
-    $assetsList.masonry({
+    this.$el.masonry({
       columnWidth: 200,
       itemSelector: '.asset-list-item',
       gutter: 10,
@@ -41,9 +42,9 @@ Surfer.Views.ShowAlbum = Backbone.View.extend({
     $assets.imagesLoaded().progress(function (imgLoad, image) {
       var $asset = $(image.img).parents('.asset-list-item');
       $asset.show();
-      $assetsList.masonry('appended', $asset).fadeIn();
+      view.$el.masonry('appended', $asset).fadeIn();
     });
   },
   
-  template: _.template($('#template-show-album').html())
+  template: _.template($('#template-assets-list').html())
 });
