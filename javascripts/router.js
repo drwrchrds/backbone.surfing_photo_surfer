@@ -1,22 +1,20 @@
 Surfer.Routers.Router = Backbone.Router.extend({
-  initialize: function($rootEl) {
-    this.$rootEl = $rootEl;
+  initialize: function () {
+    this.$rootEl = $(main);
+    this.$albumDetails = $(albumDetails);
   },
   
   routes: {
-    '': 'showAlbum',
-    '/assets/:id': 'showLightbox'
+    '': 'main'
   },
   
-  showAlbum: function() {
-    var router = this;
+  main: function() {
     album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
-    album.fetch();
     
+    var albumInfo = new Surfer.Views.AlbumInfo({ model: album });
     var indexView = new Surfer.Views.ShowAlbum({ model: album });
+    
     this.$rootEl.html(indexView.$el);
-  },
-  
-  showLightBox: function() {
+    this.$albumDetails.html(albumInfo.$el);
   }
 });

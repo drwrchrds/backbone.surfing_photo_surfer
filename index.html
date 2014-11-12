@@ -4,13 +4,11 @@
   </head>
 
   <body>
+    <header id='albumDetails' class='album-details'></header>
     <div id='main'></div>
     
     <!-- template scripts must be included before script tags that require them -->
     <script type='text/html' id='template-show-album'>
-      <section class='album-details'>
-        <h1>Album: <%= album.get('name') %></h1>
-      </section>
       <section class="assets-list">
         <% assets.each(function(asset) { %>
           <div class="asset-list-item">
@@ -20,7 +18,6 @@
             <% if(asset.get("caption")) { %>
               <div class="caption">
                 <%= asset.get("caption") %>
- 
               </div>
             <% } %>
             <span class='flavor'>
@@ -34,6 +31,17 @@
       </section>
     </script>
     
+    <script type='text/html' id='template-album-info'>
+      <h1 class='album-name'>Album: <%= album.get('name') %></h1>
+      <a href='' class='see-more'>see more</a>
+      <div class='more-details'>
+        <ul>
+          <li>Created: <%= album.get('created_at') %></li>
+          <li>Picture Count: <%= album.get('images_count') %></li>
+        </ul>
+      </div>
+    </script>
+
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
@@ -46,6 +54,7 @@
     <script src='javascripts/models/user.js'></script>
     <script src='javascripts/collections/assets.js'></script>
     <script src='javascripts/views/show_album.js'></script>
+    <script src='javascripts/views/album_info.js'></script>
     <script src='javascripts/router.js'></script>
     
     <script>

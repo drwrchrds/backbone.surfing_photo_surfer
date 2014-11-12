@@ -8,6 +8,11 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+ul, li, ol {
+  list-style: none;
 }
 
 #main {
@@ -17,11 +22,12 @@ body {
 
 .assets-list {
   margin: 0 auto;
+  width: 100%;
   padding-top: 60px;
 }
 
 .album-details {
-  height: 50px;
+  min-height: 50px;
   text-align: center;
   
   position: fixed;
@@ -30,15 +36,41 @@ body {
   right: 0;
   z-index: 1;
   
-  background: white;
+  background: rgba(255, 255, 255, 0.98);
+
 }
 
-.album-details h1 {
-  font-size: 2em;
+.album-details .album-name,
+.album-details a.see-more {
   color: #888;
   font-weight: 100;
   line-height: 50px;
-  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.album-details .album-name {
+  font-size: 2em;
+}
+
+.album-details a.see-more {
+  font-size: 1em;
+  text-decoration: none;
+/*  padding-left: 1em;*/
+  position: absolute;
+  left: 20px;
+}
+
+.album-details .more-details {
+  display: none;
+  text-align: left;
+  color: #888;
+  font-weight: 100;
+}
+
+.album-details .more-details li {
+  margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .asset-list-item {
@@ -49,7 +81,6 @@ body {
   margin-bottom: 10px;
   overflow: hidden;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.22);
-
 }
 
 .asset-list-item > img {
