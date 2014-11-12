@@ -18,9 +18,9 @@
               data-id="<%= asset.get('id') %>"
               onerror="imgError(this);">
             <% if(asset.get("caption")) { %>
-              <caption>
+              <div class='caption'>
                 <%= asset.get("caption") %>
-              </caption>
+              </div>
             <% } %>
             <span class='flavor'>
               via: <%= asset.get("service") %>
@@ -44,21 +44,24 @@
     </script>
 
     <script type='text/html' id='template-show-asset'>
-      <main style="width: <%= asset.get('dimensions')['width'] %>; max-width: 700px;">
+      <main>
         <a href="#" class="close">x</a>
         <figure>
-          <img
+          <img 
+            style="width: <%= asset.get('dimensions')['width'] %>; max-width: 700px;"
             src='<%= asset.get("url") %>/w/700'
             onerror="imgError(this);">
         </figure>
-        <caption>
-          <%= asset.get("caption") %>
-        </caption>
       </main>
       <aside>
-        Taken: <%= asset.get("created_at") %><br>
-        Via: <%= asset.get("service") %><br>
-        By: <%= asset.get("username") %>
+        <div class='caption'>
+          <%= asset.get("caption") %>
+        </div>
+        <div class='asset-details'>
+          Taken: <%= asset.get("created_at") %><br>
+          Via: <%= asset.get("service") %><br>
+          By: <%= asset.get("username") %>
+        </div>
       </aside>
     </script>
 

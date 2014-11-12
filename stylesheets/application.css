@@ -95,9 +95,31 @@ ul, li, ol {
 }
 
 .asset-list-item .caption, .asset-list-item .likes {
-  padding: 10px;
+  padding: 1em 10px;
   font-weight: 100;
   color: #111;
+}
+
+.asset-list-item .caption {
+  position:relative;
+  max-height: 7em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* give .caption overflow:hidden; and .caption::after a white gradient mask to give a 
+fade-out effect to extra text */
+.asset-list-item .caption::after {
+  height: 3em;
+  position: absolute;
+  background: white;
+  -webkit-mask-image: 
+    -webkit-gradient(linear, left bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+  top: 4em;
+  content: '';
+  display: block;
+  left: 0;
+  right: 0;
 }
 
 .asset-list-item .flavor {
@@ -134,4 +156,23 @@ ul, li, ol {
 }
 
 /* SHOW ASSET */
+.modal aside {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 200px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.96);
+}
 
+.modal .close {
+  position: absolute;
+  right: -30px;
+  top: 0;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  display: block;
+  line-height: 0.5;
+  text-decoration: none;
+}
