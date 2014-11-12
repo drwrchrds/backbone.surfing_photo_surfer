@@ -1,7 +1,8 @@
 Surfer.Routers.Router = Backbone.Router.extend({
   initialize: function () {
-    this.$rootEl = $(main);
+    this.$assetsList = $(main);
     this.$albumDetails = $(albumDetails);
+    this.$modal = $(modal);
   },
   
   routes: {
@@ -9,12 +10,14 @@ Surfer.Routers.Router = Backbone.Router.extend({
   },
   
   main: function() {
-    album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
+    var album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
     
     var albumInfo = new Surfer.Views.AlbumInfo({ model: album });
     var assetsList = new Surfer.Views.AssetsList({ model: album });
+    var assetModal = new Surfer.Views.ShowAsset({ collection: album.assets() });
     
-    this.$rootEl.html(assetsList.$el);
+    this.$assetsList.html(assetsList.$el);
     this.$albumDetails.html(albumInfo.$el);
+    this.$modal.html(assetModal.$el);
   }
 });

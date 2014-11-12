@@ -1,23 +1,26 @@
 <html>
   <head>
     <link rel='stylesheet' href='stylesheets/application.css'>
+    <link rel='stylesheet' href='stylesheets/modal.css'>
   </head>
 
   <body>
     <header id='albumDetails' class='album-details'></header>
     <div id='main'></div>
-    
+    <div id='modal' class='modal'></div>
+
     <!-- template scripts must be included before script tags that require them -->
     <script type='text/html' id='template-assets-list'>
-        <% assets.each(function(asset) { %>
+        <% assets.each(function (asset) { %>
           <div class="asset-list-item">
             <img 
               src="<%= asset.get("thumbnail") %>"
+              data-id="<%= asset.get('id') %>"
               onerror="imgError(this);">
             <% if(asset.get("caption")) { %>
-              <div class="caption">
+              <caption>
                 <%= asset.get("caption") %>
-              </div>
+              </caption>
             <% } %>
             <span class='flavor'>
               via: <%= asset.get("service") %>
@@ -40,11 +43,31 @@
       </div>
     </script>
 
+    <script type='text/html' id='template-show-asset'>
+      <main>
+        <a href="#" class="close">x</a>
+        <figure>
+          <img
+            src='<%= asset.get("url") %>'
+            onerror="imgError(this);">
+        </figure>
+        <caption>
+          <%= asset.get("caption") %>
+        </caption>
+      </main>
+      <aside>
+        Taken: <%= asset.get("created_at") %><br>
+        Via: <%= asset.get("service") %><br>
+        By: <%= asset.get("username") %>
+      </aside>
+    </script>
+
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
     <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
     <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
+    <script src='javascripts/vendor/modal.js'></script>
     
     <script src='javascripts/application.js'></script>
     <script src='javascripts/models/asset.js'></script>
@@ -53,6 +76,7 @@
     <script src='javascripts/collections/assets.js'></script>
     <script src='javascripts/views/assets_list.js'></script>
     <script src='javascripts/views/album_info.js'></script>
+    <script src='javascripts/views/show_asset.js'></script>
     <script src='javascripts/router.js'></script>
     
     <script>

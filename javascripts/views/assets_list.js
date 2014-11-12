@@ -3,6 +3,10 @@ Surfer.Views.AssetsList = Backbone.View.extend({
   
   tagName: 'section',
   
+  events: {
+    'click .asset-list-item img': 'showModal'
+  },
+
   initialize: function () {
     var view = this;
     
@@ -44,6 +48,14 @@ Surfer.Views.AssetsList = Backbone.View.extend({
       $asset.show();
       view.$el.masonry('appended', $asset).fadeIn();
     });
+  },
+
+  showModal: function(event) {
+    var $img = $(event.target);
+    var id = $img.data('id');
+
+    var asset = this.model.assets().get(id);
+    this.model.assets().trigger('modal', asset);
   },
   
   template: _.template($('#template-assets-list').html())
