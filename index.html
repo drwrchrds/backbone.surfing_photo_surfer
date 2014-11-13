@@ -16,6 +16,7 @@
           <img 
             src="<%= asset.get("thumbnail") %>"
             data-id="<%= asset.get('id') %>"
+            data-shortcut="<%= asset.get('shortcut') %>"
             onerror="imgError(this);">
           <% if(asset.get("caption")) { %>
             <div class='caption'>

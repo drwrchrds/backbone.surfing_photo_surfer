@@ -61,8 +61,21 @@ Surfer.Views.AssetsList = Backbone.View.extend({
     var $img = $(event.target);
     var id = $img.data('id');
 
-    var asset = this.collection.get(id);
-    this.collection.trigger('modal', asset);
+    var asset = this.collection.get(id); 
+    if (typeof asset === 'undefined') {
+      var shortcut = $img.data('shortcut');
+      asset = new Surfer.Models.Asset({ shortcut: shortcut });
+      asset.collection = this.collection;
+
+      // asset fetch requires authorization
+      asset.fetch({
+        success: function () {
+          this.collection.trigger('modal', asset); 
+        }.bind(this)
+      });
+    } else {
+      this.collection.trigger('modal', asset);
+    }
   },
   
   listItemTemplate: _.template($('#template-assets-list-item').html())

@@ -15,8 +15,12 @@ Surfer.Views.ShowAsset = Backbone.View.extend({
   },
 
   showModal: function (asset) {
+    // why does asset.attributes have lots of assets inside?
     this.render(asset);
-
-    $(modal).modal();
+    
+    // don't pop the modal until image is loaded
+    this.$el.imagesLoaded(function () {
+      $(modal).modal();
+    });
   }
 });

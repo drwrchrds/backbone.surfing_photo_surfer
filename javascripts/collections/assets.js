@@ -31,7 +31,7 @@ Surfer.Collections.Assets = Backbone.Collection.extend({
         },
         success: successCallback
       });
-      console.log('fetched next page');
+
       this.fetchedCount += 10;
     }
   }
