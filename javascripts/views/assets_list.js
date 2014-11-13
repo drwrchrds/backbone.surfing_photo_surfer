@@ -1,5 +1,14 @@
 Surfer.Views.AssetsList = Backbone.View.extend({
-  className: 'assets-list', 
+  attributes: {
+    'data-masonry-options': JSON.stringify({
+      columnWidth: 200, 
+      itemSelector: ".asset-list-item",
+      gutter: 10,
+      isFitWidth: true
+    })
+  },
+
+  className: 'assets-list js-masonry', 
   
   tagName: 'section',
   
@@ -8,55 +17,59 @@ Surfer.Views.AssetsList = Backbone.View.extend({
   },
 
   initialize: function () {
-    var view = this;
-    
-    this.model.assets().fetch({
-      data: {
-        per_page: 30
-      },
-      success: function () {
-        view.renderAndMasonry();
+    this.collection.fetchNextPage(this.bindScrollEvents.bind(this));
+    renderedCount = 0
+    this.listenTo(this.collection, 'sync', this.render);
+  },
+  
+  render: function () {
+    console.log('render')
+    var that = this;
+    this.collection.each(function (asset) {
+      if(!asset.rendered) {
+        var $tile = $(that.listItemTemplate({ asset: asset }));
+        $tile.hide();
+        that.$el.append($tile);
+        
+        // use imagesLoaded callback to ensure image has arrived before
+        // revealing and 'masonrying' the item.
+        $tile.imagesLoaded(function () {
+          $tile.show();
+          that.$el.masonry('appended', $tile).fadeIn();
+        });
+        renderedCount += 1
+        asset.rendered = true;
       }
     });
-  },
-  
-  render: function() {
-    var renderedContent = this.template({
-      album: this.model,
-      assets: this.model.assets()
-    })
     
-    this.$el.html(renderedContent);
-    return this;
+    this.delegateEvents();
   },
   
-  renderAndMasonry: function() {
-    this.render();
-
-    var $assets = this.$('.asset-list-item');
-    $assets.hide();
-    this.$el.masonry({
-      columnWidth: 200,
-      itemSelector: '.asset-list-item',
-      gutter: 10,
-      isFitWidth: true
-    });
+  bindScrollEvents: function () {
+    function loadMore() {
+      console.log('loadmore');
+      $(window).bind('scroll', bindScroll);
+    }
     
     var view = this;
-    $assets.imagesLoaded().progress(function (imgLoad, image) {
-      var $asset = $(image.img).parents('.asset-list-item');
-      $asset.show();
-      view.$el.masonry('appended', $asset).fadeIn();
-    });
+    function bindScroll() {
+      if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+        $(window).unbind('scroll');
+        console.log('fetched next page');
+        view.collection.fetchNextPage(loadMore)
+      }
+    }
+
+    $(window).scroll(bindScroll);
   },
 
   showModal: function(event) {
     var $img = $(event.target);
     var id = $img.data('id');
 
-    var asset = this.model.assets().get(id);
-    this.model.assets().trigger('modal', asset);
+    var asset = this.collection.get(id);
+    this.collection.trigger('modal', asset);
   },
   
-  template: _.template($('#template-assets-list').html())
+  listItemTemplate: _.template($('#template-assets-list-item').html())
 });

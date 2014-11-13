@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <link rel='stylesheet' href='stylesheets/application.css'>
@@ -10,26 +11,24 @@
     <div id='modal' class='modal'></div>
 
     <!-- template scripts must be included before script tags that require them -->
-    <script type='text/html' id='template-assets-list'>
-        <% assets.each(function (asset) { %>
-          <div class="asset-list-item">
-            <img 
-              src="<%= asset.get("thumbnail") %>"
-              data-id="<%= asset.get('id') %>"
-              onerror="imgError(this);">
-            <% if(asset.get("caption")) { %>
-              <div class='caption'>
-                <%= asset.get("caption") %>
-              </div>
-            <% } %>
-            <span class='flavor'>
-              via: <%= asset.get("service") %>
-            </span>
-            <div class="likes">
-              <%= asset.get("hearts") %>
+    <script type='text/html' id='template-assets-list-item'>
+        <div class="asset-list-item">
+          <img 
+            src="<%= asset.get("thumbnail") %>"
+            data-id="<%= asset.get('id') %>"
+            onerror="imgError(this);">
+          <% if(asset.get("caption")) { %>
+            <div class='caption'>
+              <%= asset.get("caption") %>
             </div>
+          <% } %>
+          <span class='flavor'>
+            via: <%= asset.get("service") %>
+          </span>
+          <div class="likes">
+            <%= asset.get("hearts") %>
           </div>
-        <% }) %>
+        </div>
     </script>
     
     <script type='text/html' id='template-album-info'>
@@ -68,6 +67,7 @@
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+    <script src='javascripts/vendor/backbone.paginator.min.js'></script>
     <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
     <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
     <script src='javascripts/vendor/modal.js'></script>
@@ -88,5 +88,6 @@
       });
     </script>
     
+    <!-- <div style='text-align:center;'>:)</div> -->
   </body>
 </html>
