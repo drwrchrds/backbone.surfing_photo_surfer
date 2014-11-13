@@ -17,13 +17,11 @@ Surfer.Views.AssetsList = Backbone.View.extend({
   },
 
   initialize: function () {
-    this.collection.fetchNextPage(this.bindScrollEvents.bind(this));
-    renderedCount = 0
+    this.collection.fetchNextPage();
     this.listenTo(this.collection, 'sync', this.render);
   },
   
   render: function () {
-    console.log('render')
     var that = this;
     this.collection.each(function (asset) {
       if(!asset.rendered) {
@@ -37,26 +35,22 @@ Surfer.Views.AssetsList = Backbone.View.extend({
           $tile.show();
           that.$el.masonry('appended', $tile).fadeIn();
         });
-        renderedCount += 1
+        
         asset.rendered = true;
       }
     });
     
     this.delegateEvents();
+    this.bindScrollEvents();
   },
   
   bindScrollEvents: function () {
-    function loadMore() {
-      console.log('loadmore');
-      $(window).bind('scroll', bindScroll);
-    }
     
     var view = this;
     function bindScroll() {
       if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
         $(window).unbind('scroll');
-        console.log('fetched next page');
-        view.collection.fetchNextPage(loadMore)
+        view.collection.fetchNextPage();
       }
     }
 

@@ -1,4 +1,6 @@
 Surfer.Collections.Assets = Backbone.Collection.extend({
+  fetchedCount: 0,
+  
   currentPage: 1,
 
   initialize: function (models, album) {
@@ -6,7 +8,7 @@ Surfer.Collections.Assets = Backbone.Collection.extend({
   },
   
   url: function () {
-    return this.album.url() + '/assets'
+    return this.album.url() + '/assets';
   },
   
   parse: function (jsonResp) {
@@ -18,13 +20,19 @@ Surfer.Collections.Assets = Backbone.Collection.extend({
   },
 
   fetchNextPage: function (successCallback) {
-
-    this.fetch({
-      data: {
-        per_page: 30,
-        page: this.nextPage()
-      },
-      success: successCallback
-    });
+    if (this.fetchedCount === 0 || 
+            (this.album.get('images_count') && 
+            !(this.fetchedCount > this.album.get('images_count')))) {
+      
+      this.fetch({
+        data: {
+          per_page: 10,
+          page: this.nextPage()
+        },
+        success: successCallback
+      });
+      console.log('fetched next page');
+      this.fetchedCount += 10;
+    }
   }
 });

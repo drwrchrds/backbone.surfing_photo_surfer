@@ -10,10 +10,10 @@ Surfer.Routers.Router = Backbone.Router.extend({
   },
   
   main: function() {
-    album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
+    var album = new Surfer.Models.Album({ shortcut: 'aus6kwrg' });
     
     var albumInfo = new Surfer.Views.AlbumInfo({ model: album });
-    assetsList = new Surfer.Views.AssetsList({ collection: album.assets() });
+    var assetsList = new Surfer.Views.AssetsList({ collection: album.assets() });
     var assetModal = new Surfer.Views.ShowAsset({ collection: album.assets() });
     
     this.$assetsList.html(assetsList.$el);
