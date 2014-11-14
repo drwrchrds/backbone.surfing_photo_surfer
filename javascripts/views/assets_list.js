@@ -23,6 +23,7 @@ Surfer.Views.AssetsList = Backbone.View.extend({
   
   render: function () {
     var that = this;
+    
     this.collection.each(function (asset) {
       if(!asset.rendered) {
         var $tile = $(that.listItemTemplate({ asset: asset }));
@@ -57,17 +58,17 @@ Surfer.Views.AssetsList = Backbone.View.extend({
     $(window).scroll(bindScroll);
   },
 
-  showModal: function(event) {
+  showModal: function (event) {
     var $img = $(event.target);
     var id = $img.data('id');
 
     var asset = this.collection.get(id); 
+    
     if (typeof asset === 'undefined') {
       var shortcut = $img.data('shortcut');
       asset = new Surfer.Models.Asset({ shortcut: shortcut });
       asset.collection = this.collection;
 
-      // asset fetch requires authorization
       asset.fetch({
         success: function () {
           this.collection.trigger('modal', asset); 

@@ -22,7 +22,7 @@ Surfer.Collections.Assets = Backbone.Collection.extend({
   fetchNextPage: function (successCallback) {
     if (this.fetchedCount === 0 || 
             (this.album.get('images_count') && 
-            !(this.fetchedCount > this.album.get('images_count')))) {
+            this.fetchedCount < this.album.get('images_count'))) {
       
       this.fetch({
         data: {
@@ -31,7 +31,6 @@ Surfer.Collections.Assets = Backbone.Collection.extend({
         },
         success: successCallback
       });
-
       this.fetchedCount += 10;
     }
   }

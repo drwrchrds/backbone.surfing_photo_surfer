@@ -17,7 +17,7 @@
             src="<%= asset.get("thumbnail") %>"
             data-id="<%= asset.get('id') %>"
             data-shortcut="<%= asset.get('shortcut') %>"
-            onerror="imgError(this);">
+            onerror="Surfer.imgError(this);">
           <% if(asset.get("caption")) { %>
             <div class='caption'>
               <%= asset.get("caption") %>
@@ -34,7 +34,7 @@
     
     <script type='text/html' id='template-album-info'>
       <h1 class='album-name'>Album: <%= album.get('name') %></h1>
-      <a href='' class='see-more'>see more</a>
+      <a href='' class='see-more'>more details</a>
       <div class='more-details'>
         <ul>
           <li>Created: <%= album.get('created_at') %></li>
@@ -65,23 +65,7 @@
       </aside>
     </script>
 
-    <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
-    <script src='javascripts/vendor/backbone.paginator.min.js'></script>
-    <script src='javascripts/vendor/masonry.pkgd.min.js'></script>
-    <script src='javascripts/vendor/imagesloaded.pkgd.min.js'></script>
-    <script src='javascripts/vendor/modal.js'></script>
-    
-    <script src='javascripts/application.js'></script>
-    <script src='javascripts/models/asset.js'></script>
-    <script src='javascripts/models/album.js'></script>
-    <script src='javascripts/models/user.js'></script>
-    <script src='javascripts/collections/assets.js'></script>
-    <script src='javascripts/views/assets_list.js'></script>
-    <script src='javascripts/views/album_info.js'></script>
-    <script src='javascripts/views/show_asset.js'></script>
-    <script src='javascripts/router.js'></script>
+    <script src='javascripts/build/production.min.js'></script>
     
     <script>
       $(function() {

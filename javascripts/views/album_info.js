@@ -6,7 +6,7 @@ Surfer.Views.AlbumInfo = Backbone.View.extend({
   },
   
   initialize: function () {
-    this.model.fetch()
+    this.model.fetch();
     this.listenTo(this.model, 'sync', this.render);
   },
   
@@ -19,8 +19,8 @@ Surfer.Views.AlbumInfo = Backbone.View.extend({
     return this;
   },
   
-  toggleDetails: function (event) {
+  toggleDetails: function () {
     this.$('.more-details').slideToggle();
     return false;
   }
-})
+});

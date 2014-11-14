@@ -9,14 +9,13 @@ window.Surfer = {
     new Surfer.Routers.Router($rootEl);
     Backbone.history.start();
   }
-}
+};
 
 // UTILITY FUNCTIONS
 
-// imgError replaces broken image links with default broken-image png
-// ref:  http://stackoverflow.com/questions/92720/jquery-javascript-to-replace-broken-images?lq=1
-var imgError = function (image) {
+// imgError callback replaces broken imgs with a custom broken-image png
+Surfer.imgError = function (image) {
   image.onerror = '';
   image.src = 'images/no_image_available.png';
   return this;
-}
+};
