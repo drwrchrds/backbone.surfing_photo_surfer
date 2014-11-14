@@ -260,6 +260,7 @@ Surfer.Views.AssetsList = Backbone.View.extend({
       asset.collection = this.collection;
 
       asset.fetch({
+        silent: true,
         success: function () {
           this.collection.trigger('modal', asset); 
         }.bind(this)
